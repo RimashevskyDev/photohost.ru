@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Все изображения{% endblock %}
+
+{% block body %}
+
+    {% for flash_error in app.flashes('error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
+    {% for flash_success in app.flashes('success') %}
+        <div class="alert alert-danger" role="alert">{{ flash_success }}</div>
+    {% endfor %}
+
+    <h1>Просмотр изображений</h1>
+
+    {% if paginator.totalPostsReturned <= 0 %}
+        На сайте еще нет изображений!
+    {% endif %}
+
+    {% for image in paginator.iterator %}
+        <div style="border: 4px solid #d4d4d4">
+            <p>{{ image.getOriginalName }}</p>
+            <p>{{ image.getUploadedDate|date('Y-m-d H:i:s') }}</p>
+
+            <img src="{{ holder }}{{ asset(image.getModifiedName) }}" alt="{{ image.getOriginalName }}"
+                 style="border-radius: 20px">
+
+            <a href="{{ path('app_image_download', {id: image.getId}) }}">
+                <button>Скачать документ</button>
+            </a>
+        </div>
+    {% endfor %}
+
+    {% if paginator.totalPostsReturned > 0 %}
+        {% if paginator.page > 1 %}
+            <a href="{{ path('app_image_index', {page: paginator.page-1}) }}">Пред.</a>
+            <a href="{{ path('app_image_index', {page: 1}) }}">1</a>
+        {% endif %}
+
+        <a href="{{ path('app_image_index', {page: paginator.page}) }}">{{ paginator.page }}</a>
+
+        {% if paginator.maxPages > paginator.page %}
+            <a href="{{ path('app_image_index', {page: paginator.page+1}) }}">След.</a>
+        {% endif %}
+    {% endif %}
+
+{% endblock %}

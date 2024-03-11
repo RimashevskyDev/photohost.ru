@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Добавление фотографий{% endblock %}
+
+{% block body %}
+
+    {% for flash_error in app.flashes('error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
+    {% for flash_success in app.flashes('success') %}
+        <div class="alert alert-danger" role="alert">{{ flash_success }}</div>
+    {% endfor %}
+
+    <h1>Добавление фотографий</h1>
+
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+    {{ form_row(form.images) }}
+    {{ form_end(form) }}
+
+{% endblock %}
